@@ -1,0 +1,23 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "co.markusi.dsl"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+ext {
+    support_library_version = '26.1.0'
+}
+
+dependencies {
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:$support_library_version"
+}
