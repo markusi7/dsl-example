@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <item name="default_elevation" type="dimen">4dp</item>
+    <item name="toolbar_height" type="dimen">56dp</item>
+</resources>
