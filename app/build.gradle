@@ -1,6 +1,19 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        //noinspection GradleDependency -> this one is listed in the documentation
+        classpath "gradle.plugin.io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.0.0.RC5-2"
+    }
+}
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
+apply plugin: "io.gitlab.arturbosch.detekt"
+apply from: '../config/quality.gradle'
 
 android {
     compileSdkVersion 26

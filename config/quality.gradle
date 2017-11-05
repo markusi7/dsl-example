@@ -1,0 +1,47 @@
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    ktlint
+}
+
+dependencies {
+    ktlint "com.github.shyiko:ktlint:0.11.1"
+}
+
+check.dependsOn 'detektCheck', 'ktlint'
+
+detekt {
+    profile("main") {
+        input = "$projectDir/src/main"
+        config = "$project.rootDir/config/detekt.yml"
+        parallel = true
+    }
+}
+
+// see https://github.com/shyiko/ktlint#usage for more
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    main = "com.github.shyiko.ktlint.Main"
+    classpath = configurations.ktlint
+}
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    main = "com.github.shyiko.ktlint.Main"
+    classpath = configurations.ktlint
+    args "-F"
+}
+
+android {
+    lintOptions {
+        abortOnError true
+        checkAllWarnings true
+        warningsAsErrors true
+        lintConfig file("${project.rootDir}/config/lint.xml")
+        htmlReport true
+        htmlOutput file("$project.buildDir/reports/lint-results.html")
+        xmlReport false
+    }
+}

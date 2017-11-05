@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="GoogleAppIndexingWarning" severity="ignore"/>
+    <!-- Looks like https://issuetracker.google.com/issues/36958791 ¯\_(ツ)_/¯ -->
+    <issue id="MissingRegistered" severity="ignore"/>
+</lint>
