@@ -22,6 +22,12 @@ class MainActivity : AppCompatActivity() {
     private fun addRegistrationForm() {
         registrationForm = RegistrationForm.create(this) {
 
+            dropdownMenu {
+                text = getString(R.string.writing_dsls_in_kotlin_is)
+                items = resources.getStringArray(R.array.dropdown_items).map { it }
+                selectedItem = getString(R.string.preselected_dropdown_item)
+            }
+
             formCheckBox {
                 text = getString(R.string.i_am_not_mandatory)
             }

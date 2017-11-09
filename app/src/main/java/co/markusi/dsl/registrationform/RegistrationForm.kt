@@ -12,17 +12,20 @@ import co.markusi.dsl.R
 
 @SuppressLint("ViewConstructor") // We don't want to use this View subclass in layouts
 class RegistrationForm private constructor(context: Context,
+                                           val dropdownMenu: DropdownMenu,
                                            val checkBoxes: List<FormCheckBox>,
                                            val registerButton: RegisterButton)
     : LinearLayout(context) {
 
     private constructor(builder: Builder) : this(
             builder.context,
+            builder.dropdownMenu,
             builder.checkBoxes,
             builder.registerButton) {
         orientation = VERTICAL
         val formPadding = context.resources.getDimensionPixelOffset(R.dimen.spacing_2x)
         setPadding(formPadding, formPadding, formPadding, formPadding)
+        addView(dropdownMenu)
         builder.checkBoxes.forEach {
             addView(it)
         }
@@ -55,6 +58,11 @@ class RegistrationForm private constructor(context: Context,
         }
 
         fun build() = RegistrationForm(this)
+
+        fun dropdownMenu(init: DropdownMenu.Builder.() -> Unit) {
+            dropdownMenu = DropdownMenu.Builder(context, init).build()
+            applyDefaultFieldAttributes(dropdownMenu)
+        }
 
         fun formCheckBox(init: FormCheckBox.Builder.() -> Unit) : FormCheckBox {
             val formCheckBox = FormCheckBox.Builder(context, init).build()
