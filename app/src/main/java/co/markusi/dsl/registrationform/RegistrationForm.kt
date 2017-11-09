@@ -12,6 +12,8 @@ import co.markusi.dsl.R
 
 @SuppressLint("ViewConstructor") // We don't want to use this View subclass in layouts
 class RegistrationForm private constructor(context: Context,
+                                           val usernameField: InputField,
+                                           val passwordField: PasswordInputField,
                                            val dropdownMenu: DropdownMenu,
                                            val checkBoxes: List<FormCheckBox>,
                                            val registerButton: RegisterButton)
@@ -19,12 +21,16 @@ class RegistrationForm private constructor(context: Context,
 
     private constructor(builder: Builder) : this(
             builder.context,
+            builder.usernameField,
+            builder.passwordField,
             builder.dropdownMenu,
             builder.checkBoxes,
             builder.registerButton) {
         orientation = VERTICAL
         val formPadding = context.resources.getDimensionPixelOffset(R.dimen.spacing_2x)
         setPadding(formPadding, formPadding, formPadding, formPadding)
+        addView(usernameField)
+        addView(passwordField)
         addView(dropdownMenu)
         builder.checkBoxes.forEach {
             addView(it)
@@ -37,7 +43,7 @@ class RegistrationForm private constructor(context: Context,
     }
 
     fun isValid(): Boolean {
-        return allMandatoryCheckBoxesAreChecked()
+        return usernameField.isValid() && passwordField.isValid() && allMandatoryCheckBoxesAreChecked()
     }
 
     private fun allMandatoryCheckBoxesAreChecked(): Boolean = checkBoxes.all { it.isValid() }
@@ -58,6 +64,16 @@ class RegistrationForm private constructor(context: Context,
         }
 
         fun build() = RegistrationForm(this)
+
+        fun usernameField(init: InputField.Builder.() -> Unit) {
+            usernameField = InputField.Builder(context, init).build()
+            applyDefaultFieldAttributes(usernameField)
+        }
+
+        fun passwordField(init: PasswordInputField.Builder.() -> Unit) {
+            passwordField = PasswordInputField.Builder(context, init).build()
+            applyDefaultFieldAttributes(passwordField)
+        }
 
         fun dropdownMenu(init: DropdownMenu.Builder.() -> Unit) {
             dropdownMenu = DropdownMenu.Builder(context, init).build()
@@ -87,12 +103,16 @@ class RegistrationForm private constructor(context: Context,
     }
 
     fun hideErrors() {
+        usernameField.hideError()
+        passwordField.hideError()
         checkBoxes.forEach {
             it.hideError()
         }
     }
 
     fun showErrors() {
+        usernameField.showErrorIfInvalid()
+        passwordField.showErrorIfInvalid()
         checkBoxes.forEach {
             it.showErrorIfInvalid()
         }
