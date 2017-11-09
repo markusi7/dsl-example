@@ -22,6 +22,15 @@ class MainActivity : AppCompatActivity() {
     private fun addRegistrationForm() {
         registrationForm = RegistrationForm.create(this) {
 
+            formCheckBox {
+                text = getString(R.string.i_am_not_mandatory)
+            }
+
+            formCheckBox {
+                text = getString(R.string.i_will_consider_using_dsls)
+                isMandatory = true
+            }
+
             registerButton {
                 onClickListener = {
                     registrationForm.hideErrors()

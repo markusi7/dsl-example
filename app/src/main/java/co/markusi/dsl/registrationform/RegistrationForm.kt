@@ -12,11 +12,13 @@ import co.markusi.dsl.R
 
 @SuppressLint("ViewConstructor") // We don't want to use this View subclass in layouts
 class RegistrationForm private constructor(context: Context,
+                                           val checkBoxes: List<FormCheckBox>,
                                            val registerButton: RegisterButton)
     : LinearLayout(context) {
 
     private constructor(builder: Builder) : this(
             builder.context,
+            builder.checkBoxes,
             builder.registerButton) {
         orientation = VERTICAL
         val formPadding = context.resources.getDimensionPixelOffset(R.dimen.spacing_2x)
@@ -32,8 +34,11 @@ class RegistrationForm private constructor(context: Context,
     }
 
     fun isValid(): Boolean {
-        return true
+        return allMandatoryCheckBoxesAreChecked()
     }
+
+    private fun allMandatoryCheckBoxesAreChecked(): Boolean = checkBoxes.all { it.isValid() }
+
 
     class Builder private constructor(val context: Context) {
 
@@ -51,6 +56,13 @@ class RegistrationForm private constructor(context: Context,
 
         fun build() = RegistrationForm(this)
 
+        fun formCheckBox(init: FormCheckBox.Builder.() -> Unit) : FormCheckBox {
+            val formCheckBox = FormCheckBox.Builder(context, init).build()
+            applyDefaultFieldAttributes(formCheckBox)
+            checkBoxes.add(formCheckBox)
+            return formCheckBox
+        }
+
         fun registerButton(init: RegisterButton.Builder.() -> Unit) {
             registerButton = RegisterButton.Builder(context, init).build()
             registerButton.layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
@@ -67,10 +79,14 @@ class RegistrationForm private constructor(context: Context,
     }
 
     fun hideErrors() {
-
+        checkBoxes.forEach {
+            it.hideError()
+        }
     }
 
     fun showErrors() {
-
+        checkBoxes.forEach {
+            it.showErrorIfInvalid()
+        }
     }
 }
