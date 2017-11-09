@@ -1,4 +1,26 @@
 <resources>
     <string name="app_name">DSL Example</string>
+
+    <!-- Registration form -->
     <string name="registration_form">Registration Form</string>
+    <string name="username">username</string>
+    <string name="username_error_message">Username length must be between %1d and %2d characters!</string>
+    <string name="password_hint">Enter password (Only numbers)</string>
+    <string name="registration_successful">Registration successful!</string>
+    <string name="register">Register</string>
+    <string name="only_numbers_are_allowed">Only numbers are allowed!</string>
+
+    <string name="preselected_dropdown_item">awesome</string>
+    <string name="writing_dsls_in_kotlin_is">Writing DSLs in Kotlin is</string>
+    <string name="i_am_not_mandatory">I\'m not mandatory</string>
+    <string name="i_will_consider_using_dsls">I will consider using DSLs</string>
+    <string name="this_checkbox_must_be_checked">This checkbox must be checked!</string>
+
+    <string-array name="dropdown_items">
+        <item>awesome</item>
+        <item>amazing</item>
+        <item>breathtaking</item>
+        <item>impressive</item>
+        <item>overwhelming</item>
+    </string-array>
 </resources>
